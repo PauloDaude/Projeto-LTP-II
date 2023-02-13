@@ -1,37 +1,40 @@
-from classes import Documento, TipoDocumento, User
+from time import sleep
+from classes import Documento, TipoDocumento
+import usuarios
 
-print("----Bem Vindo!----\nNovo por aqui? Crie já sua conta!")
+print(f"{' Bem Vindo '.center(50, '-')}\nNovo por aqui? Crie já sua conta!")
 
-nome = input("Digite seu nome:")
-email = input('Digite seu email:')
-senha = input("Digite a sua senha:")
+# --------------------- LOGIN -----------------------------
+if usuarios.login():
+    sleep(1)
 
-usuario = User(nome, email, senha)
-print(usuario.autorizacao())
+    # -------------- CRIAÇÃO DO DOCUMENTO ---------------------
+    print(" Tipo de Documento ".center(50, '-').upper())
+    for indice, valor in enumerate(TipoDocumento.ListaTipo):
+        print(f"Código [ {indice + 1} ] -> {valor}")
+    print('-' * 50)
 
-for indice, valor in enumerate(TipoDocumento.ListaTipo):
-    print(f'Código = {indice}, Tipo do Documento = {valor}')
+    print('\n' + '-' * 50)
+    tipo = int(input('Digite o código correspondente ao tipo de Documento: '))
+    print('-' * 50 + '\n')
+    a = TipoDocumento(tipo - 1)
 
-print('\n')
+    print('\n' + '-' * 50)
+    subtipo = int(input('Digite o código do subtipo de Documento: '))
+    print('-' * 50 + '\n')
+    a.subtype(subtipo - 1)
 
-a = TipoDocumento(
-    int(input('Digite o número correspondente ao tipo de Documento: ')))
+    numero = input("Digite o NÚMERO do documento: ")
+    data = input("Digite a DATA do documento [dd/mm/aaaa]: ")
+    autor = input("Digite o NOME do autor: ")
+    titulo = input("Digite o TÍTULO do documento: ")
+    descricao = input("Digite a DESCRIÇÃO do documento: ")
+    print('-' * 50 + '\n')
 
-print('\n')
+    c = Documento(numero, data, autor, titulo, descricao)
 
-a.subtype(int(input('Digite o número do subtipo de Documento: ')))
-
-print('\n')
-
-numero = input("Digite o número do documento: ")
-data = input("Digite a data (em dd/mm/aaaa) do documento: ")
-autor = input("Digite o nome do autor: ")
-descricao = input("Digite o assunto do documento: ")
-
-print('\n')
-
-c = Documento(numero, data, autor, descricao)
-
-a.description()
-c.impressao()
-print('\n', "Fim")
+    # ------------------- RESULTADO ------------------------
+    print(' Documento final '.upper().center(50, '-'))
+    a.description()
+    c.impressao()
+    print('-' * 50)
